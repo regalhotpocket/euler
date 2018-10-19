@@ -14,10 +14,8 @@ def check(n: int) -> bool:
         rev += n%10*10**(floor(l/2)-i-1)
         n   =  floor(n/10)
     return True if half == rev else False
-def largest_palindrome_product(digits: int) -> int:    
-    for x in reversed(range(1,10**digits)):
-        for y in reversed(range(1,10**digits)):
-                if check(x*y):
-                    return(x, y, x*y)
+def largest_palindrome_product(digits: int) -> int:
+    d = sum([9*10**a for a in range(digits)])
+    return max([x * y for x in range(d) for y in range(d) if check(x*y)])
 
 print(largest_palindrome_product(3))
