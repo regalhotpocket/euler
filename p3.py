@@ -1,12 +1,5 @@
 from math import sqrt
-
-def is_prime(n: int) -> bool:
-    if n < 2:
-        return False
-    for x in range(2,1+round(sqrt(n))):
-        if n % x == 0:
-            return False
-    return True
+from shared import is_prime
 
 def largest_prime_factor(n: int) -> int:
     for x in reversed(range(2,1+round(sqrt(n)))):
