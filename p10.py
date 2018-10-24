@@ -1,5 +1,6 @@
 from math import floor
 from typing import Generator
+#https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
 def sieve_of_eratosthenes(n: int) -> Generator[int,  None, None]:
     l = [False]*(n+1)
     p = 2
