@@ -1,8 +1,3 @@
-x = 1
-y = 2
-z = 0
-while y < 4000000:
-    if y % 2 == 0:
-        z += y
-    x, y = y, x + y
-print(z)
+from shared import fib
+from itertools import filterfalse, takewhile
+print(sum(filterfalse(lambda y:y%2==0, takewhile(lambda x: x < 4000000, fib()))))
