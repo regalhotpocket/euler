@@ -11,30 +11,34 @@
 #include <array>
 #include <iostream>
 #include <math.h>
-bool is_pan(int n) {
-    std::array<bool,9> exsits = {false};
-    while (n > 0) {
-        auto t = n%10;
-        if (t == 0 || exsits[t-1])
-            return false;
-        exsits[t-1] = true;
-        n /= 10;
-    }
-    return std::all_of(exsits.begin(), exsits.end(), [](bool t){return t;});
-}
-long cat(int a, int b, int c) {
-    long lenb = 0, lenc = 0, tb = b, tc = c;
-    while(tb > 0) { lenb++; tb /= 10; }
-    while(tc > 0) { lenc++; tc /= 10; }
-    return a*pow(10, lenb+lenc) + b*pow(10, lenc) + c;
-}
+#include <unordered_set>
+#include <numeric>
 int main() {
-    long sum = 0;
-    for (int i = 1; i <= 9876; i++) {
-        for (int j = 1; j <= 9876; j++) {
-            if (is_pan(cat(i, j, i*j)))
-                sum += i*j;
+    std::array<uint8_t,9> nums = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    std::unordered_set<uint32_t> found;
+    uint32_t sum = 0;
+    do {
+        for (uint8_t i = 0; i <= 4; i++) {
+            for (uint8_t j = 0; j <= 4; j++) {
+                uint32_t a = 0;
+                for (uint8_t x = 0; x < i; x++) {
+                    a *= 10; 
+                    a += nums[x];
+                }
+                uint32_t b = 0;
+                for (uint8_t y = i; y < j+i; y++) {
+                    b *= 10; 
+                    b += nums[y];
+                }
+                uint32_t c = 0;
+                for (uint8_t z = i+j; z < 9; z++) {
+                    c *= 10; 
+                    c += nums[z];
+                }
+                if (a*b == c)
+                    found.insert(c);
+            }
         }
-    }
-    std::cout << sum << '\n';
+    } while (std::next_permutation(nums.begin(), nums.end()));
+    std::cout << std::accumulate(found.begin(), found.end(), 0) << '\n';
 }
